@@ -29,6 +29,7 @@ public class GameStartEvent extends Event {
         GameAPI.getInstance().status = GameStatus.INGAME;
         Bukkit.getOnlinePlayers().forEach((p) -> p.playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 20F, 1F));
         Bukkit.getOnlinePlayers().forEach((p) -> p.setLevel(0));
+        Bukkit.getOnlinePlayers().forEach((p) -> p.setExp(0));
     }
 
 }

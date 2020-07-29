@@ -6,6 +6,7 @@ import com.reinforcedmc.gameapi.config.GameConfig;
 import com.reinforcedmc.gameapi.config.LocationsConfig;
 import com.reinforcedmc.gameapi.events.GameStartEvent;
 import com.reinforcedmc.gameapi.scoreboard.CustomScoreboard;
+import com.reinforcedmc.gameapi.scoreboard.UpdateScoreboardEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -53,7 +54,7 @@ public class GameAPI extends JavaPlugin implements Listener {
         prefix = currentGame.getPrefix() + ChatColor.DARK_GRAY + ChatColor.BOLD + "> " + ChatColor.RESET + ChatColor.GRAY;
 
         if(gameServer) {
-            Bukkit.getServer().getPluginCommand("game").setExecutor(new GameCMD());
+            this.getCommand("game").setExecutor(new GameCMD());
             Bukkit.getServer().getPluginManager().registerEvents(this, this);
         }
 
@@ -69,7 +70,9 @@ public class GameAPI extends JavaPlugin implements Listener {
 
         tryStarting();
 
-        new CustomScoreboard(e.getPlayer(), "GameAPI", "lmao1", "lol2").init();
+        CustomScoreboard sb = new CustomScoreboard(e.getPlayer(), " " + currentGame.getPrefix() + " ");
+        sb.init();
+        sb.addLine("&9Text");
 
         if(status == GameStatus.LOBBY || status == GameStatus.PRECOUNTDOWN) {
             if(locationsConfig.lobby != null) {
@@ -84,6 +87,8 @@ public class GameAPI extends JavaPlugin implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         e.setQuitMessage(ChatColor.RED + "[-] " + e.getPlayer().getName());
+
+        CustomScoreboard.clearPlayer(e.getPlayer());
     }
 
     public void tryStarting() {

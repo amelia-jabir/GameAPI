@@ -13,7 +13,11 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
+import java.util.HashMap;
+
 public class CustomScoreboard {
+
+	private static HashMap<Player, CustomScoreboard> cache = new HashMap<>();
 	
 	private BukkitTask task;
 	private Player bound;
@@ -49,6 +53,7 @@ public class CustomScoreboard {
 	
 	public CustomScoreboard init() {
 		this.bound.setScoreboard(sb);
+		cache.put(bound, this);
 		update();
 		
 		task = new BukkitRunnable() {
@@ -64,7 +69,7 @@ public class CustomScoreboard {
 				currentTitle = currentTitle + 1 > getTitles().length ? 1 : currentTitle + 1;
 				update();
 			}
-		}.runTaskTimerAsynchronously(GameAPI.getInstance(), 0, 2);
+		}.runTaskTimer(GameAPI.getInstance(), 0, 2);
 		return this;
 	}
 	
@@ -187,6 +192,11 @@ public class CustomScoreboard {
 	        	o.getScoreboard().resetScores(getEntryFromScore(o, score));
 	    }
 	    o.getScore(name).setScore(score);
+	}
+
+	public static void clearPlayer(Player player) {
+		if (cache.containsKey(player)) cache.get(player).stop();
+		cache.remove(player);
 	}
 
 }
