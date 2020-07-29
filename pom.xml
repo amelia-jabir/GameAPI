@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>DeathSwap</name>
+    <name>GameAPI</name>
 
     <properties>
         <java.version>1.8</java.version>
@@ -50,7 +50,7 @@
                     <archive>
                         <manifest>
                             <mainClass>
-                                com.reinforcedmc.deathswap.DeathSwap
+                                com.reinforcedmc.gameapi.GameAPI
                             </mainClass>
                         </manifest>
                     </archive>
@@ -78,7 +78,7 @@
                         <configuration>
                             <target>
                                 <echo>ANT TASK - copying files....</echo>
-                                <copy todir="../../Testserver15/plugins" overwrite="true" flatten="true">
+                                <copy todir="../../Testserver15 2/plugins" overwrite="true" flatten="true">
                                     <fileset dir="${basedir}" includes="*.bat" >
                                         <include name="target/*jar-with-dependencies.jar" />
                                     </fileset>

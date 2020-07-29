@@ -1,0 +1,9 @@
+name: GameAPI
+version: 1.0
+api-version: 1.15
+main: com.reinforcedmc.gameapi.GameAPI
+
+commands:
+  game:
+    description: Main Command for setting up games
+    aliases: g
