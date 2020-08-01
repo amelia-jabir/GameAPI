@@ -123,6 +123,7 @@ public class CustomScoreboard {
 		
 		int count = 0;
 		for(int i = 0; i < this.getLines().length; i++) {
+
 			if(this.getLines()[i] == null) {
 				if(getEntryFromScore(obj, 15-i) != null) scoreboard.resetScores(getEntryFromScore(obj, 15-i));
 				continue;
@@ -141,7 +142,7 @@ public class CustomScoreboard {
 			String[] allChars = new String[3];
 			allChars[1] = line;
 			
-			if(line.length() > 16) {
+			if(line.length() > 25) {
 				allChars[0] = line.substring(0, 16);
 				allChars[1] = line.substring(16, Math.min(32, line.length()));
 				if(line.length() > 32) allChars[2] = line.substring(32, Math.min(48, line.length()));
@@ -180,6 +181,7 @@ public class CustomScoreboard {
 		name = team == null ? name : team.getPrefix() + name + team.getSuffix();
 		
 	    if(hasScoreTaken(o, score)) {
+
 	    	Scoreboard s = o.getScoreboard();
 	    	String found = getEntryFromScore(o, score);
 	    	if(s.getEntryTeam(found) != null)

@@ -15,13 +15,16 @@ public class Game {
 
     private boolean allowMixed;
 
-    public Game(String name, String prefix, List<String> description, int minPlayers, int maxPlayers, boolean allowMixed) {
+    private String[] titles;
+
+    public Game(String name, String prefix, List<String> description, int minPlayers, int maxPlayers, boolean allowMixed, String[] titles) {
         this.name = name;
         this.prefix = prefix;
         this.description = description;
         this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
         this.allowMixed = allowMixed;
+        this.titles = titles;
     }
 
     public String getName() {
@@ -46,6 +49,10 @@ public class Game {
 
     public boolean mixAllowed() {
         return allowMixed;
+    }
+
+    public String[] getScoreboardTitles() {
+        return titles;
     }
 
 }

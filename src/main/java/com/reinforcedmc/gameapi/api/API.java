@@ -3,7 +3,9 @@ package com.reinforcedmc.gameapi.api;
 import com.reinforcedmc.gameapi.Game;
 import com.reinforcedmc.gameapi.GameAPI;
 import com.reinforcedmc.gameapi.GameStatus;
+import com.reinforcedmc.gameapi.events.GameSetupEvent;
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -11,22 +13,27 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class API {
 
-    public void revivePlayer(Player p, GameMode gameMode, Location reviveLocation) {
-        if(!GameAPI.getInstance().ingame.contains(p.getUniqueId())) {
-            GameAPI.getInstance().ingame.add(p.getUniqueId());
-            p.setGameMode(gameMode);
-            if(reviveLocation != null) p.teleport(reviveLocation);
+    public void putInSpectator(Player p) {
+        p.setGameMode(GameMode.ADVENTURE);
+        p.setAllowFlight(true);
+        p.setFlying(true);
+        for(UUID uuid : GameAPI.getInstance().ingame) {
+            Player pp = Bukkit.getPlayer(uuid);
+            pp.hidePlayer(p);
         }
     }
 
-    public void killPlayer(Player p, Location spectateLocation) {
-        if(GameAPI.getInstance().ingame.contains(p.getUniqueId())) {
-            GameAPI.getInstance().ingame.remove(p.getUniqueId());
-            p.setGameMode(GameMode.CREATIVE);
-            if(spectateLocation != null) p.teleport(spectateLocation);
+    public void putInNormal(Player p) {
+        p.setGameMode(GameMode.SURVIVAL);
+        p.setAllowFlight(false);
+        p.setFlying(false);
+        for(UUID uuid : GameAPI.getInstance().ingame) {
+            Player pp = Bukkit.getPlayer(uuid);
+            pp.showPlayer(p);
         }
     }
 
@@ -36,15 +43,21 @@ public class API {
             return;
         }
 
+        GameAPI.getInstance().status = GameStatus.ENDING;
+
+        for(UUID uuid : GameAPI.getInstance().ingame) {
+            Player p = Bukkit.getPlayer(uuid);
+            for(Player pp : Bukkit.getOnlinePlayers()) {
+                pp.showPlayer(p);
+            }
+        }
+
         if(winner != null) {
 
-            for(Player p : Bukkit.getOnlinePlayers()) {
-                if(!p.getUniqueId().equals(winner.getUniqueId())) {
-                    if(p.getLocation().distance(winner.getLocation()) >= 16) {
-                        p.teleport(winner);
-                    }
-                }
-                p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1F, 1F);
+            for(UUID uuid : GameAPI.getInstance().ingame) {
+                Player p = Bukkit.getPlayer(uuid);
+                if(uuid != winner.getUniqueId())
+                    p.teleport(winner);
             }
 
             Bukkit.broadcastMessage(GameAPI.prefix + "The game has ended. " + ChatColor.GOLD + winner.getName() + " won!");
@@ -70,8 +83,6 @@ public class API {
             Bukkit.broadcastMessage(GameAPI.prefix + "The game has ended. Nobody wins!");
         }
 
-        GameAPI.getInstance().status = GameStatus.ENDING;
-
         new BukkitRunnable() {
             int cd = 8;
             @Override
@@ -80,16 +91,19 @@ public class API {
                     cd--;
                 } else {
                     Bukkit.getOnlinePlayers().forEach((p) -> p.teleport(GameAPI.getInstance().getLocationsConfig().lobby));
-                    Bukkit.getOnlinePlayers().forEach((p) -> p.setGameMode(GameMode.SURVIVAL));
-                    Bukkit.getOnlinePlayers().forEach((p) -> p.playSound(p.getLocation(), Sound.ENTITY_CHICKEN_EGG, 1F, 1.5F));
-                    GameAPI.getInstance().status = GameStatus.LOBBY;
+
+                    for(UUID uuid : GameAPI.getInstance().ingame) {
+                        Player p = Bukkit.getPlayer(uuid);
+                        p.getInventory().clear();
+                        p.setGameMode(GameMode.SURVIVAL);
+                        p.setHealth(p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+                        p.setFireTicks(0);
+                        p.getActivePotionEffects().clear();
+                    }
+
                     this.cancel();
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            GameAPI.getInstance().tryStarting();
-                        }
-                    }.runTaskLater(GameAPI.getInstance(), 100L);
+                    Bukkit.getOnlinePlayers().forEach((p) -> p.kickPlayer("Constructing New Game..."));
+                    Bukkit.getServer().getPluginManager().callEvent(new GameSetupEvent(GameAPI.getInstance().currentGame));
                 }
             }
         }.runTaskTimer(GameAPI.getInstance(), 0, 20L);

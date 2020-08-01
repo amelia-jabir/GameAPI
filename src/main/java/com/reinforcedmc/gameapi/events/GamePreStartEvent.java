@@ -12,7 +12,7 @@ import org.bukkit.event.HandlerList;
 
 import java.util.UUID;
 
-public class GameSetupEvent extends Event {
+public class GamePreStartEvent extends Event {
 
     private Game game;
 
@@ -27,13 +27,17 @@ public class GameSetupEvent extends Event {
         return HANDLERS;
     }
 
-    public GameSetupEvent(Game game) {
+    public GamePreStartEvent(Game game) {
         this.game = game;
-        GameAPI.getInstance().status = GameStatus.SETUP;
+
+        GameAPI.getInstance().status = GameStatus.POSTCOUNTDOWN;
+        Bukkit.getOnlinePlayers().forEach((p) -> p.setLevel(0));
+        for(UUID uuid : GameAPI.getInstance().ingame) {
+            Player p = Bukkit.getPlayer(uuid);
+            p.setGameMode(GameMode.SURVIVAL);
+        }
+        Bukkit.getOnlinePlayers().forEach((p) -> p.playSound(p.getLocation(), Sound.UI_CARTOGRAPHY_TABLE_TAKE_RESULT, 1F, 0.8F));
     }
 
-    public void openServer() {
-        GameAPI.getInstance().status = GameStatus.LOBBY;
-    }
 
 }

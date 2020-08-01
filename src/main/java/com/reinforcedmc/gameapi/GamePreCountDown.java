@@ -1,7 +1,6 @@
 package com.reinforcedmc.gameapi;
 
-import com.reinforcedmc.gameapi.events.GameSetupEvent;
-import com.reinforcedmc.gameapi.events.GameStartEvent;
+import com.reinforcedmc.gameapi.events.GamePreStartEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -22,8 +21,8 @@ public class GamePreCountDown extends BukkitRunnable {
     @Override
     public void run() {
 
-        if(Bukkit.getOnlinePlayers().size() < GameAPI.getInstance().currentGame.getMinPlayers()) {
-            Bukkit.broadcastMessage(GameAPI.prefix + ChatColor.RED + "" + (GameAPI.getInstance().currentGame.getMinPlayers() - Bukkit.getOnlinePlayers().size()) + " more players are needed to start the game!");
+        if(GameAPI.getInstance().ingame.size() < GameAPI.getInstance().currentGame.getMinPlayers()) {
+            Bukkit.broadcastMessage(GameAPI.prefix + ChatColor.RED + "" + (GameAPI.getInstance().currentGame.getMinPlayers() - GameAPI.getInstance().ingame.size()) + " more players are needed to start the game!");
             GameAPI.getInstance().status = GameStatus.LOBBY;
             Bukkit.getOnlinePlayers().forEach((p) -> p.setLevel(0));
             this.cancel();
@@ -40,9 +39,7 @@ public class GamePreCountDown extends BukkitRunnable {
 
             currentCD--;
         } else {
-            Bukkit.getServer().getPluginManager().callEvent(new GameSetupEvent(GameAPI.getInstance().currentGame));
-            new GamePostCountDown().start();
-            GameAPI.getInstance().preCountDown = null;
+            Bukkit.getServer().getPluginManager().callEvent(new GamePreStartEvent(GameAPI.getInstance().currentGame));
             this.cancel();
         }
 

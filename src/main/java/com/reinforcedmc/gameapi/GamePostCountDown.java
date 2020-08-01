@@ -1,6 +1,5 @@
 package com.reinforcedmc.gameapi;
 
-import com.reinforcedmc.gameapi.events.GameSetupEvent;
 import com.reinforcedmc.gameapi.events.GameStartEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,6 +12,7 @@ public class GamePostCountDown extends BukkitRunnable {
     int currentCD = cooldown;
 
     public void start() {
+        GameAPI.getInstance().preCountDown = null;
         GameAPI.getInstance().status = GameStatus.POSTCOUNTDOWN;
         this.runTaskTimer(GameAPI.getInstance(), 0, 20);
     }

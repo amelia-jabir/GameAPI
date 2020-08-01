@@ -29,8 +29,9 @@ public class GameConfig {
 
             config = YamlConfiguration.loadConfiguration(file);
 
-            config.set("game", "DeathSwap");
             config.set("isGameServer", false);
+            config.set("serverName", "CHANGE NAME");
+            config.set("game", "DeathSwap");
 
         } else {
             config = YamlConfiguration.loadConfiguration(file);
@@ -43,8 +44,9 @@ public class GameConfig {
         }
 
         GameAPI gameAPI = GameAPI.getInstance();
+        gameAPI.gameServer = config.getBoolean("isGameServer");
+        gameAPI.serverName = config.getString("serverName");
         gameAPI.currentGame = gameAPI.getGameManager().getGameByName(config.getString("game"));
-        GameAPI.gameServer = config.getBoolean("isGameServer");
 
         try {
             config.save(file);
