@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -86,6 +87,8 @@ public class GameAPI extends JavaPlugin implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         e.setJoinMessage(ChatColor.GREEN + "[+] " + e.getPlayer().getName());
 
+        resetPlayer(e.getPlayer());
+
         if(!ingame.contains(e.getPlayer().getUniqueId()))
             ingame.add(e.getPlayer().getUniqueId());
 
@@ -106,6 +109,15 @@ public class GameAPI extends JavaPlugin implements Listener {
             api.putInSpectator(e.getPlayer());
         }
 
+    }
+
+    public void resetPlayer(Player p) {
+        p.getInventory().clear();
+        p.getInventory().setArmorContents(null);
+        p.setGameMode(GameMode.SURVIVAL);
+        p.setHealth(p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+        p.setFireTicks(0);
+        p.getActivePotionEffects().clear();
     }
 
     @EventHandler
@@ -150,7 +162,11 @@ public class GameAPI extends JavaPlugin implements Listener {
                     "&3play.reinforced.com"
             };
 
-            e.getScoreboard().setTitles(currentGame.getScoreboardTitles());
+            if(currentGame.getScoreboardTitles() != null) {
+                e.getScoreboard().setTitles(currentGame.getScoreboardTitles());
+            } else {
+                e.getScoreboard().setTitles(currentGame.getPrefix());
+            }
             e.getScoreboard().setLines(lines);
         }
 

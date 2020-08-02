@@ -94,11 +94,7 @@ public class API {
 
                     for(UUID uuid : GameAPI.getInstance().ingame) {
                         Player p = Bukkit.getPlayer(uuid);
-                        p.getInventory().clear();
-                        p.setGameMode(GameMode.SURVIVAL);
-                        p.setHealth(p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
-                        p.setFireTicks(0);
-                        p.getActivePotionEffects().clear();
+                        GameAPI.getInstance().resetPlayer(p);
                     }
 
                     this.cancel();
