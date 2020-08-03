@@ -104,6 +104,7 @@ public class API {
                         GameAPI.getInstance().getBungeeUtils().sendAllToHub();
                     }
                     GameAPI.getInstance().status = GameStatus.SETUP;
+                    Bukkit.getServer().getPluginManager().callEvent(new GameSetupEvent(GameAPI.getInstance().currentGame));
                 }
             }
         }.runTaskTimer(GameAPI.getInstance(), 0, 20L);
