@@ -1,5 +1,8 @@
 package com.reinforcedmc.gameapi;
 
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import com.reinforcedmc.gameapi.api.API;
 import com.reinforcedmc.gameapi.commands.GameCMD;
 import com.reinforcedmc.gameapi.config.GameConfig;
@@ -8,6 +11,7 @@ import com.reinforcedmc.gameapi.events.GameSetupEvent;
 import com.reinforcedmc.gameapi.events.GameStartEvent;
 import com.reinforcedmc.gameapi.scoreboard.CustomScoreboard;
 import com.reinforcedmc.gameapi.scoreboard.UpdateScoreboardEvent;
+import com.reinforcedmc.gameapi.utils.BungeeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -23,13 +27,14 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.ScoreboardManager;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class GameAPI extends JavaPlugin implements Listener {
+public class GameAPI extends JavaPlugin implements Listener, PluginMessageListener {
 
     static GameAPI instance;
     static API api;
@@ -49,17 +54,34 @@ public class GameAPI extends JavaPlugin implements Listener {
 
     public GamePreCountDown preCountDown;
 
+    private BungeeUtils bungeeUtils;
+
     @Override
     public void onEnable() {
 
         instance = this;
+
+        bungeeUtils = new BungeeUtils();
 
         locationsConfig = new LocationsConfig();
         gameManager = new GameManager();
         gameConfig = new GameConfig();
         api = new API();
 
+
         prefix = currentGame.getPrefix() + ChatColor.DARK_GRAY + ChatColor.BOLD + "> " + ChatColor.RESET + ChatColor.GRAY;
+
+        if(bungeeUtils.enabled) {
+            this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);
+            this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    bungeeUtils.getServerPlayerCounts();
+                }
+            }.runTaskTimerAsynchronously(this, 0L, 100L);
+        }
 
         if(gameServer) {
             this.getCommand("game").setExecutor(new GameCMD());
@@ -102,8 +124,6 @@ public class GameAPI extends JavaPlugin implements Listener {
             api.putInNormal(e.getPlayer());
             if(locationsConfig.lobby != null) {
                 e.getPlayer().teleport(locationsConfig.lobby, PlayerTeleportEvent.TeleportCause.PLUGIN);
-            } else {
-                e.getPlayer().sendMessage(prefix + ChatColor.RED + "WARNING: You need to set a lobby spawn!");
             }
         } else {
             api.putInSpectator(e.getPlayer());
@@ -131,10 +151,25 @@ public class GameAPI extends JavaPlugin implements Listener {
     }
 
     public void tryStarting() {
-        if(currentGame == null) {
-            Bukkit.broadcastMessage(prefix + ChatColor.RED + "ERROR: No game was specified in config.");
-            return;
+
+        boolean cancel = false;
+
+        if(locationsConfig.lobby == null) {
+            cancel = true;
+            Bukkit.broadcastMessage(prefix + ChatColor.RED + "ERROR: You need to set a lobby spawn before playing!");
         }
+
+        if(currentGame == null) {
+            cancel = true;
+            Bukkit.broadcastMessage(prefix + ChatColor.RED + "ERROR: No game was specified in config.");
+        }
+
+        if(bungeeUtils.enabled && bungeeUtils.hubs.isEmpty()) {
+            cancel = true;
+            Bukkit.broadcastMessage(prefix + ChatColor.RED + "ERROR: You haven't specified any servers in config!");
+        }
+
+        if(cancel) return;
 
         if(ingame.size() < currentGame.getMinPlayers()) {
             Bukkit.broadcastMessage(prefix + ChatColor.RED + "" + (currentGame.getMinPlayers() - ingame.size()) + " more players are needed to start the game!");
@@ -193,8 +228,21 @@ public class GameAPI extends JavaPlugin implements Listener {
         return locationsConfig;
     }
 
+    public BungeeUtils getBungeeUtils() {
+        return bungeeUtils;
+    }
+
     public static GameAPI getInstance() {
         return instance;
     }
 
+    @Override
+    public void onPluginMessageReceived(String channel, Player player, byte[] message) {
+        ByteArrayDataInput in = ByteStreams.newDataInput(message);
+
+        String server = in.readUTF();
+        int playercount = in.readInt();
+        bungeeUtils.hubs.replace(server, playercount);
+
+    }
 }

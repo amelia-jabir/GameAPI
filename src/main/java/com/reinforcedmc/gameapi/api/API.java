@@ -98,8 +98,12 @@ public class API {
                     }
 
                     this.cancel();
-                    Bukkit.getOnlinePlayers().forEach((p) -> p.kickPlayer("Constructing New Game..."));
-                    Bukkit.getServer().getPluginManager().callEvent(new GameSetupEvent(GameAPI.getInstance().currentGame));
+                    if(!GameAPI.getInstance().getBungeeUtils().enabled) {
+                        Bukkit.getOnlinePlayers().forEach((p) -> p.kickPlayer("Constructing New Game..."));
+                    } else {
+                        GameAPI.getInstance().getBungeeUtils().sendAllToHub();
+                    }
+                    GameAPI.getInstance().status = GameStatus.SETUP;
                 }
             }
         }.runTaskTimer(GameAPI.getInstance(), 0, 20L);

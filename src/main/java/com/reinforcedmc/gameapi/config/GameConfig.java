@@ -6,6 +6,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GameConfig {
 
@@ -32,6 +34,8 @@ public class GameConfig {
             config.set("isGameServer", false);
             config.set("serverName", "CHANGE NAME");
             config.set("game", "DeathSwap");
+            config.set("bungeecord", false);
+            config.set("hubs", Arrays.asList("lobby"));
 
         } else {
             config = YamlConfiguration.loadConfiguration(file);
@@ -47,6 +51,11 @@ public class GameConfig {
         gameAPI.gameServer = config.getBoolean("isGameServer");
         gameAPI.serverName = config.getString("serverName");
         gameAPI.currentGame = gameAPI.getGameManager().getGameByName(config.getString("game"));
+        gameAPI.getBungeeUtils().enabled = config.getBoolean("bungeecord");
+
+        for(String hub : config.getStringList("hubs")) {
+            gameAPI.getBungeeUtils().hubs.put(hub, 0);
+        }
 
         try {
             config.save(file);
