@@ -65,4 +65,15 @@ public class GameConfig {
 
     }
 
+    public void set(String path, String value) {
+        config.set(path, value);
+
+        try {
+            config.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

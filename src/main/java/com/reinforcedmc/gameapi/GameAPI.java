@@ -116,7 +116,6 @@ public class GameAPI extends JavaPlugin implements Listener, PluginMessageListen
 
         CustomScoreboard sb = new CustomScoreboard(e.getPlayer(), " " + currentGame.getPrefix() + " ");
         sb.init();
-        sb.addLine("&9Text");
 
         tryStarting();
 
@@ -136,6 +135,10 @@ public class GameAPI extends JavaPlugin implements Listener, PluginMessageListen
         p.getInventory().setArmorContents(null);
         p.setGameMode(GameMode.SURVIVAL);
         p.setHealth(p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+        p.setFoodLevel(20);
+        p.setLevel(0);
+        p.setExp(0);
+        p.setFoodLevel(20);
         p.setFireTicks(0);
         p.getActivePotionEffects().clear();
     }
@@ -194,7 +197,7 @@ public class GameAPI extends JavaPlugin implements Listener, PluginMessageListen
                     "",
                     "Players: " + "&b" + ingame.size() + "/" + game.getMaxPlayers(),
                     "",
-                    "&3play.reinforced.com"
+                    "&bplay.reinforced.com"
             };
 
             if(currentGame.getScoreboardTitles() != null) {
@@ -226,6 +229,10 @@ public class GameAPI extends JavaPlugin implements Listener, PluginMessageListen
 
     public LocationsConfig getLocationsConfig() {
         return locationsConfig;
+    }
+
+    public GameConfig getGameConfig() {
+        return gameConfig;
     }
 
     public BungeeUtils getBungeeUtils() {
