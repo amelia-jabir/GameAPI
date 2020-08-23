@@ -4,6 +4,7 @@ import com.reinforcedmc.gameapi.GameAPI;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
@@ -66,6 +67,16 @@ public class GameWorld {
             }
 
             tpLocations.add(location);
+        }
+    }
+
+    public void teleportPlayers() {
+        for(int i=0;i<tpLocations.size();i++) {
+
+            if(i+1 > GameAPI.getInstance().ingame.size()) break;
+
+            Player p = Bukkit.getPlayer(GameAPI.getInstance().ingame.get(i));
+            p.teleport(tpLocations.get(i));
         }
     }
 
