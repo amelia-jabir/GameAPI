@@ -16,6 +16,8 @@ public class GameWorld {
     public Location spawn;
     public long maxRadius;
 
+    private int chunkPreLoadRange = 8;
+
     public ArrayList<Location> tpLocations = new ArrayList<>();
 
     public GameWorld(String worldname, long maxRadius) {
@@ -58,8 +60,11 @@ public class GameWorld {
                 location.setY(highest.getY() + 1); // Get the Highest Block of the Location for Save Spawn.
             }
 
-            for(int cx=-8; cx<=8; cx++) {
-                for(int cz=-8; cz<=8; cz++) {
+            int chunkcount = 0;
+            for(int cx=-(chunkPreLoadRange/2); cx<chunkPreLoadRange/2; cx++) {
+                for(int cz=-(chunkPreLoadRange/2); cz<chunkPreLoadRange/2; cz++) {
+                    chunkcount++;
+                    System.out.println(GameAPI.getInstance().currentGame.getName() + " > Preloading chunk " + chunkcount + "/" + (chunkPreLoadRange*chunkPreLoadRange) + " for location " + (i+1) + "/" + GameAPI.getInstance().currentGame.getMaxPlayers());
                     Location loc = new Location(location.getWorld(), location.getX() + cx * 16, location.getY(), location.getZ() + cz * 16);
                     Chunk chunk = world.getChunkAt(loc);
                     chunk.load();
