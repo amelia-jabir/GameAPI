@@ -14,13 +14,15 @@ public class GameWorld {
 
     public World world;
     public Location spawn;
-    public long maxRadius;
 
     private int chunkPreLoadRange = 8;
 
     public ArrayList<Location> tpLocations = new ArrayList<>();
 
-    public GameWorld(String worldname, long maxRadius) {
+    public GameWorld(String worldname, long maxRadius, boolean generateNether, boolean generateEnd) {
+
+        System.out.println(GameAPI.getInstance().currentGame.getName() + " > Generating world " + worldname);
+
         if(Bukkit.getWorld(worldname) != null) {
             Bukkit.unloadWorld(worldname, false);
         }
@@ -73,6 +75,51 @@ public class GameWorld {
 
             tpLocations.add(location);
         }
+
+        if(generateNether)
+            generateNether();
+
+        if(generateEnd)
+            generateEnd();
+
+    }
+
+    private void generateNether() {
+        System.out.println(GameAPI.getInstance().currentGame.getName() + " > Generating Nether");
+
+        if(Bukkit.getWorld("world_nether") != null) {
+            Bukkit.unloadWorld("world_nether", false);
+        }
+        File folder = new File(Bukkit.getWorldContainer() + "/world_nether");
+        try {
+            FileUtils.deleteDirectory(folder);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        WorldCreator creator = new WorldCreator("world_nether");
+        creator.environment(World.Environment.NETHER);
+        creator.generateStructures(true);
+        world = creator.createWorld();
+    }
+
+    private void generateEnd() {
+        System.out.println(GameAPI.getInstance().currentGame.getName() + " > Generating End");
+
+        if(Bukkit.getWorld("world_the_end") != null) {
+            Bukkit.unloadWorld("world_the_end", false);
+        }
+        File folder = new File(Bukkit.getWorldContainer() + "/world_the_end");
+        try {
+            FileUtils.deleteDirectory(folder);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        WorldCreator creator = new WorldCreator("world_the_end");
+        creator.environment(World.Environment.THE_END);
+        creator.generateStructures(true);
+        world = creator.createWorld();
     }
 
     public void teleportPlayers() {
