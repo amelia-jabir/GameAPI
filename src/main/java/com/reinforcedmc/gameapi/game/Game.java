@@ -1,4 +1,4 @@
-package com.reinforcedmc.gameapi;
+package com.reinforcedmc.gameapi.game;
 
 import org.bukkit.ChatColor;
 
@@ -10,20 +10,23 @@ public class Game {
     private String prefix;
     private List<String> description;
 
+    private GameFlags gameFlags;
+
     private int minPlayers;
     private int maxPlayers;
 
-    private boolean allowMixed;
-
     private String[] titles;
 
-    public Game(String name, String prefix, List<String> description, int minPlayers, int maxPlayers, boolean allowMixed, String[] titles) {
+    public Game(String name, String prefix, List<String> description, GameFlags gameFlags, int minPlayers, int maxPlayers, String[] titles) {
         this.name = name;
         this.prefix = prefix;
         this.description = description;
+
+        this.gameFlags = gameFlags;
+
         this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
-        this.allowMixed = allowMixed;
+
         this.titles = titles;
     }
 
@@ -39,16 +42,16 @@ public class Game {
         return description;
     }
 
+    public GameFlags getGameFlags() {
+        return gameFlags;
+    }
+
     public int getMinPlayers() {
         return minPlayers;
     }
 
     public int getMaxPlayers() {
         return maxPlayers;
-    }
-
-    public boolean mixAllowed() {
-        return allowMixed;
     }
 
     public String[] getScoreboardTitles() {

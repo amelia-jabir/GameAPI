@@ -1,11 +1,10 @@
 package com.reinforcedmc.gameapi.api;
 
-import com.reinforcedmc.gameapi.Game;
+import com.reinforcedmc.gameapi.game.Game;
 import com.reinforcedmc.gameapi.GameAPI;
-import com.reinforcedmc.gameapi.GameStatus;
-import com.reinforcedmc.gameapi.events.GameSetupEvent;
+import com.reinforcedmc.gameapi.game.GameStatus;
+import com.reinforcedmc.gameapi.events.api.GameSetupEvent;
 import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -94,7 +93,7 @@ public class API {
 
                     for(UUID uuid : GameAPI.getInstance().ingame) {
                         Player p = Bukkit.getPlayer(uuid);
-                        GameAPI.getInstance().resetPlayer(p);
+                        GameAPI.getInstance().getGameUtils().resetPlayer(p);
                     }
 
                     this.cancel();

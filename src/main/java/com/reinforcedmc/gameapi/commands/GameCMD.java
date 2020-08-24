@@ -1,9 +1,9 @@
 package com.reinforcedmc.gameapi.commands;
 
-import com.reinforcedmc.gameapi.Game;
-import com.reinforcedmc.gameapi.GameAPI;
-import com.reinforcedmc.gameapi.GameManager;
-import com.reinforcedmc.gameapi.GameStatus;
+import com.reinforcedmc.gameapi.*;
+import com.reinforcedmc.gameapi.game.Game;
+import com.reinforcedmc.gameapi.game.GamePreCountDown;
+import com.reinforcedmc.gameapi.game.GameStatus;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -41,9 +41,22 @@ public class GameCMD implements CommandExecutor {
             }
         }
 
+        if(args[0].equalsIgnoreCase("start")) {
+            GameAPI.getInstance().getGameUtils().tryStarting();
+        }
+
+        if(args[0].equalsIgnoreCase("stop")) {
+            GamePreCountDown gamePreCountDown = GameAPI.getInstance().preCountDown;
+            if(gamePreCountDown != null) {
+                gamePreCountDown.cancel();
+                gamePreCountDown.currentCD = gamePreCountDown.cooldown;
+                p.sendMessage(GameAPI.prefix + ChatColor.GRAY + "You have stopped the game from starting.");
+            }
+        }
+
         if(args[0].equalsIgnoreCase("setlobby")) {
             GameAPI.getInstance().getLocationsConfig().setLocation("lobby", p.getLocation());
-            p.sendMessage(GameAPI.getInstance().prefix + ChatColor.GRAY + "Lobby has been set!");
+            p.sendMessage(GameAPI.prefix + ChatColor.GRAY + "Lobby has been set!");
         }
 
         if(args[0].equalsIgnoreCase("setgame")) {
@@ -67,7 +80,7 @@ public class GameCMD implements CommandExecutor {
             GameAPI.getInstance().getGameConfig().set("game", args[1]);
             p.sendMessage(ChatColor.GRAY + "The game has been set to " + g.getPrefix() + "!");
 
-            GameAPI.getInstance().tryStarting();
+            GameAPI.getInstance().getGameUtils().tryStarting();
 
         }
 

@@ -1,6 +1,7 @@
-package com.reinforcedmc.gameapi;
+package com.reinforcedmc.gameapi.game;
 
-import com.reinforcedmc.gameapi.events.GamePreStartEvent;
+import com.reinforcedmc.gameapi.GameAPI;
+import com.reinforcedmc.gameapi.events.api.GamePreStartEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -8,7 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class GamePreCountDown extends BukkitRunnable {
 
-    int cooldown = 30;
+    public final int cooldown = 30;
     public int currentCD = cooldown;
 
     public void start() {

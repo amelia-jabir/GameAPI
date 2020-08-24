@@ -1,4 +1,4 @@
-package com.reinforcedmc.gameapi;
+package com.reinforcedmc.gameapi.game;
 
 public enum GameStatus {
 

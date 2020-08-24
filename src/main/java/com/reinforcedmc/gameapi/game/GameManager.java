@@ -1,7 +1,7 @@
-package com.reinforcedmc.gameapi;
+package com.reinforcedmc.gameapi.game;
 
-import com.reinforcedmc.gameapi.games.BlockShuffle;
-import com.reinforcedmc.gameapi.games.DeathSwap;
+import com.reinforcedmc.gameapi.minigames.BlockShuffle;
+import com.reinforcedmc.gameapi.minigames.DeathSwap;
 
 import java.util.ArrayList;
 

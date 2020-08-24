@@ -1,8 +1,8 @@
-package com.reinforcedmc.gameapi.events;
+package com.reinforcedmc.gameapi.events.api;
 
-import com.reinforcedmc.gameapi.Game;
+import com.reinforcedmc.gameapi.game.Game;
 import com.reinforcedmc.gameapi.GameAPI;
-import com.reinforcedmc.gameapi.GameStatus;
+import com.reinforcedmc.gameapi.game.GameStatus;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;

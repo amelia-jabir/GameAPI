@@ -1,16 +1,10 @@
-package com.reinforcedmc.gameapi.events;
+package com.reinforcedmc.gameapi.events.api;
 
-import com.reinforcedmc.gameapi.Game;
+import com.reinforcedmc.gameapi.game.Game;
 import com.reinforcedmc.gameapi.GameAPI;
-import com.reinforcedmc.gameapi.GameStatus;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
+import com.reinforcedmc.gameapi.game.GameStatus;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-
-import java.util.UUID;
 
 public class GameSetupEvent extends Event {
 

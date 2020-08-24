@@ -1,8 +1,8 @@
-package com.reinforcedmc.gameapi;
+package com.reinforcedmc.gameapi.game;
 
-import com.reinforcedmc.gameapi.events.GameStartEvent;
+import com.reinforcedmc.gameapi.GameAPI;
+import com.reinforcedmc.gameapi.events.api.GameStartEvent;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
 
