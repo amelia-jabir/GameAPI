@@ -1,5 +1,7 @@
 package com.reinforcedmc.gameapi.game;
 
+import org.bukkit.Difficulty;
+
 public class GameFlags {
 
     boolean allowNether = false;
@@ -7,6 +9,7 @@ public class GameFlags {
     boolean pvp = false;
     boolean blockbreak = true;
     boolean blockplace = true;
+    Difficulty difficulty = Difficulty.NORMAL;
 
     public GameFlags() {
 
@@ -54,6 +57,15 @@ public class GameFlags {
 
     public GameFlags setBlockplace(boolean blockplace) {
         this.blockplace = blockplace;
+        return this;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public GameFlags setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
         return this;
     }
 }
