@@ -17,6 +17,8 @@ public class Game {
 
     private String[] titles;
 
+    public String worldname;
+
     public Game(String name, String prefix, List<String> description, GameFlags gameFlags, int minPlayers, int maxPlayers, String[] titles) {
         this.name = name;
         this.prefix = prefix;

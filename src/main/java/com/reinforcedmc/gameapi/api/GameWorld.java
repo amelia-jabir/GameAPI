@@ -21,7 +21,8 @@ public class GameWorld {
 
     public GameWorld(String worldname, long maxRadius, boolean generateNether, boolean generateEnd) {
 
-        System.out.println(GameAPI.getInstance().currentGame.getName() + " > Generating world " + worldname);
+        GameAPI.getInstance().currentGame.worldname = worldname;
+        System.out.println(GameAPI.getInstance().currentGame.getName() + " > Generating world " + worldname + "..");
 
         if(Bukkit.getWorld(worldname) != null) {
             Bukkit.unloadWorld(worldname, false);
@@ -77,46 +78,46 @@ public class GameWorld {
         }
 
         if(generateNether)
-            generateNether();
+            generateNether(worldname);
 
         if(generateEnd)
-            generateEnd();
+            generateEnd(worldname);
 
     }
 
-    private void generateNether() {
-        System.out.println(GameAPI.getInstance().currentGame.getName() + " > Generating Nether");
+    private void generateNether(String worldname) {
+        System.out.println(GameAPI.getInstance().currentGame.getName() + " > Generating Nether..");
 
-        if(Bukkit.getWorld("world_nether") != null) {
-            Bukkit.unloadWorld("world_nether", false);
+        if(Bukkit.getWorld(worldname + "_nether") != null) {
+            Bukkit.unloadWorld(worldname + "_nether", false);
         }
-        File folder = new File(Bukkit.getWorldContainer() + "/world_nether");
+        File folder = new File(Bukkit.getWorldContainer() + "/" + worldname + "_nether");
         try {
             FileUtils.deleteDirectory(folder);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        WorldCreator creator = new WorldCreator("world_nether");
+        WorldCreator creator = new WorldCreator(worldname + "_nether");
         creator.environment(World.Environment.NETHER);
         creator.generateStructures(true);
         world = creator.createWorld();
     }
 
-    private void generateEnd() {
-        System.out.println(GameAPI.getInstance().currentGame.getName() + " > Generating End");
+    private void generateEnd(String worldname) {
+        System.out.println(GameAPI.getInstance().currentGame.getName() + " > Generating End..");
 
-        if(Bukkit.getWorld("world_the_end") != null) {
-            Bukkit.unloadWorld("world_the_end", false);
+        if(Bukkit.getWorld(worldname + "_the_end") != null) {
+            Bukkit.unloadWorld(worldname + "_the_end", false);
         }
-        File folder = new File(Bukkit.getWorldContainer() + "/world_the_end");
+        File folder = new File(Bukkit.getWorldContainer() + "/" + worldname + "_the_end");
         try {
             FileUtils.deleteDirectory(folder);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        WorldCreator creator = new WorldCreator("world_the_end");
+        WorldCreator creator = new WorldCreator(worldname + "_the_end");
         creator.environment(World.Environment.THE_END);
         creator.generateStructures(true);
         world = creator.createWorld();
