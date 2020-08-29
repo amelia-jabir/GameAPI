@@ -50,8 +50,18 @@ public class GameCMD implements CommandExecutor {
             if(gamePreCountDown != null) {
                 gamePreCountDown.cancel();
                 gamePreCountDown.currentCD = gamePreCountDown.cooldown;
+                GameAPI.getInstance().status = GameStatus.LOBBY;
                 p.sendMessage(GameAPI.prefix + ChatColor.GRAY + "You have stopped the game from starting.");
             }
+        }
+
+        if(args[0].equalsIgnoreCase("end")) {
+            if(GameAPI.getInstance().status != GameStatus.INGAME) {
+                p.sendMessage(GameAPI.prefix + ChatColor.GRAY + "There is no game currently running!");
+                return true;
+            }
+
+            GameAPI.getInstance().getAPI().endGame(null);
         }
 
         if(args[0].equalsIgnoreCase("setlobby")) {
