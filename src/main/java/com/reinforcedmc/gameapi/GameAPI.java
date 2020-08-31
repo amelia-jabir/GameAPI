@@ -60,7 +60,7 @@ public class GameAPI extends JavaPlugin implements Listener, PluginMessageListen
         gameConfig = new GameConfig();
         api = new API();
 
-        prefix = currentGame.getPrefix() + ChatColor.DARK_GRAY + ChatColor.BOLD + "> " + ChatColor.RESET + ChatColor.GRAY;
+        prefix = currentGame.getPrefix() + ChatColor.DARK_GRAY + ChatColor.BOLD + "> " + ChatColor.RESET + ChatColor.AQUA;
 
         if(bungeeUtils.enabled) {
             this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);

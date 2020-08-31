@@ -24,7 +24,7 @@ public class PlayerJoinQuitEvent implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        e.setJoinMessage(ChatColor.GREEN + "[+] " + e.getPlayer().getName());
+        e.setJoinMessage(ChatColor.GRAY + e.getPlayer().getName() + ChatColor.AQUA + " has joined the game.");
 
         GameAPI.getInstance().getGameUtils().resetPlayer(e.getPlayer());
 
@@ -49,7 +49,7 @@ public class PlayerJoinQuitEvent implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
-        e.setQuitMessage(ChatColor.RED + "[-] " + e.getPlayer().getName());
+        e.setQuitMessage(ChatColor.GRAY + e.getPlayer().getName() + ChatColor.AQUA + " has left the game.");
 
         if(GameAPI.getInstance().ingame.contains(e.getPlayer().getUniqueId()))
             GameAPI.getInstance().ingame.remove(e.getPlayer().getUniqueId());

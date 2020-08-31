@@ -51,13 +51,13 @@ public class GameCMD implements CommandExecutor {
                 gamePreCountDown.cancel();
                 gamePreCountDown.currentCD = gamePreCountDown.cooldown;
                 GameAPI.getInstance().status = GameStatus.LOBBY;
-                p.sendMessage(GameAPI.prefix + ChatColor.GRAY + "You have stopped the game from starting.");
+                p.sendMessage(ChatColor.AQUA + "You have stopped the game from starting.");
             }
         }
 
         if(args[0].equalsIgnoreCase("end")) {
             if(GameAPI.getInstance().status != GameStatus.INGAME) {
-                p.sendMessage(GameAPI.prefix + ChatColor.GRAY + "There is no game currently running!");
+                p.sendMessage(ChatColor.AQUA + "There is currently no game running!");
                 return true;
             }
 
@@ -66,7 +66,7 @@ public class GameCMD implements CommandExecutor {
 
         if(args[0].equalsIgnoreCase("setlobby")) {
             GameAPI.getInstance().getLocationsConfig().setLocation("lobby", p.getLocation());
-            p.sendMessage(GameAPI.prefix + ChatColor.GRAY + "Lobby has been set!");
+            p.sendMessage(ChatColor.AQUA + "You have set the lobby!");
         }
 
         if(args[0].equalsIgnoreCase("setgame")) {
@@ -88,7 +88,8 @@ public class GameCMD implements CommandExecutor {
             Game g = GameAPI.getInstance().getGameManager().getGameByName(args[1]);
             GameAPI.getInstance().currentGame = g;
             GameAPI.getInstance().getGameConfig().set("game", args[1]);
-            p.sendMessage(ChatColor.GRAY + "The game has been set to " + g.getPrefix() + "!");
+            GameAPI.prefix = g.getPrefix() + ChatColor.DARK_GRAY + ChatColor.BOLD + "> " + ChatColor.RESET + ChatColor.GRAY;
+            p.sendMessage(ChatColor.AQUA + "The game has been set to " + g.getPrefix() + "!");
 
             GameAPI.getInstance().getGameUtils().tryStarting();
 

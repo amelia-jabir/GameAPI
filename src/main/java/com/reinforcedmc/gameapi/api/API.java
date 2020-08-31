@@ -59,7 +59,7 @@ public class API {
                     p.teleport(winner);
             }
 
-            Bukkit.broadcastMessage(GameAPI.prefix + "The game has ended. " + ChatColor.GOLD + winner.getName() + " won!");
+            Bukkit.broadcastMessage(ChatColor.AQUA + "The game has ended. " + ChatColor.GOLD + winner.getName() + " won!");
 
             new BukkitRunnable() {
                 int i = 8;
@@ -79,7 +79,7 @@ public class API {
                 }
             }.runTaskTimer(GameAPI.getInstance(), 0, 20);
         } else {
-            Bukkit.broadcastMessage(GameAPI.prefix + "The game has ended. Nobody wins!");
+            Bukkit.broadcastMessage(ChatColor.AQUA + "The game has ended. Nobody wins!");
         }
 
         new BukkitRunnable() {

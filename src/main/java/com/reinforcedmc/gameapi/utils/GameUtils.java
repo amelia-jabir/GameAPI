@@ -23,23 +23,22 @@ public class GameUtils {
 
         if(gameAPI.getLocationsConfig().lobby == null) {
             cancel = true;
-            Bukkit.broadcastMessage(gameAPI.prefix + ChatColor.RED + "ERROR: You need to set a lobby spawn before playing!");
+            Bukkit.broadcastMessage(ChatColor.RED + "ERROR: You need to set a lobby spawn before playing!");
         }
 
         if(gameAPI.currentGame == null) {
             cancel = true;
-            Bukkit.broadcastMessage(gameAPI.prefix + ChatColor.RED + "ERROR: No game was specified in config.");
+            Bukkit.broadcastMessage(ChatColor.RED + "ERROR: No game was specified in config.");
         }
 
         if(gameAPI.getBungeeUtils().enabled && gameAPI.getBungeeUtils().hubs.isEmpty()) {
             cancel = true;
-            Bukkit.broadcastMessage(gameAPI.prefix + ChatColor.RED + "ERROR: You haven't specified any servers in config!");
+            Bukkit.broadcastMessage(ChatColor.RED + "ERROR: You haven't specified any servers in config!");
         }
 
         if(cancel) return;
 
         if(gameAPI.ingame.size() < gameAPI.currentGame.getMinPlayers()) {
-            Bukkit.broadcastMessage(gameAPI.prefix + ChatColor.RED + "" + (gameAPI.currentGame.getMinPlayers() - gameAPI.ingame.size()) + " more players are needed to start the game!");
             return;
         }
 
