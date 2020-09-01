@@ -59,7 +59,7 @@ public class API {
                     p.teleport(winner);
             }
 
-            Bukkit.broadcastMessage(ChatColor.AQUA + "The game has ended. " + ChatColor.DARK_AQUA + ChatColor.BOLD + winner.getName() + " won!");
+            Bukkit.broadcastMessage(ChatColor.AQUA + "The game has ended. " + ChatColor.GOLD + ChatColor.BOLD + winner.getName() + " won!");
 
             new BukkitRunnable() {
                 int i = 8;
