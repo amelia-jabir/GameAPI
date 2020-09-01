@@ -1,6 +1,7 @@
 package com.reinforcedmc.gameapi.config;
 
 import com.reinforcedmc.gameapi.GameAPI;
+import com.reinforcedmc.gameapi.game.GameType;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -34,6 +35,7 @@ public class GameConfig {
             config.set("isGameServer", false);
             config.set("serverName", "CHANGE NAME");
             config.set("game", "DeathSwap");
+            config.set("type", "DEFAULT");
             config.set("bungeecord", false);
             config.set("hubs", Arrays.asList("lobby"));
 
@@ -51,6 +53,7 @@ public class GameConfig {
         gameAPI.gameServer = config.getBoolean("isGameServer");
         gameAPI.serverName = config.getString("serverName");
         gameAPI.currentGame = gameAPI.getGameManager().getGameByName(config.getString("game"));
+        gameAPI.gameType = GameType.valueOf(config.getString("type").toUpperCase());
         gameAPI.getBungeeUtils().enabled = config.getBoolean("bungeecord");
 
         for(String hub : config.getStringList("hubs")) {

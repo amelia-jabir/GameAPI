@@ -15,7 +15,7 @@ public class GamePreCountDown extends BukkitRunnable {
     public void start() {
         GameAPI.getInstance().status = GameStatus.PRECOUNTDOWN;
         Bukkit.getOnlinePlayers().forEach((p) -> p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1F, 1F));
-        Bukkit.broadcastMessage(ChatColor.AQUA + "The game is starting in " + ChatColor.GOLD + currentCD + ChatColor.AQUA + " seconds.");
+        Bukkit.broadcastMessage(ChatColor.AQUA + "The game is starting in " + ChatColor.DARK_AQUA + ChatColor.BOLD + currentCD + ChatColor.AQUA + " seconds.");
         this.runTaskTimer(GameAPI.getInstance(), 0, 20);
     }
 
@@ -34,7 +34,7 @@ public class GamePreCountDown extends BukkitRunnable {
 
             if(currentCD < 5 || currentCD == 15) {
                 Bukkit.getOnlinePlayers().forEach((p) -> p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1F, 1F));
-                Bukkit.broadcastMessage(ChatColor.AQUA + "The game is starting in " + ChatColor.GOLD + currentCD + ChatColor.AQUA + " seconds.");
+                Bukkit.broadcastMessage(ChatColor.AQUA + "The game is starting in " + ChatColor.DARK_AQUA + ChatColor.BOLD + currentCD + ChatColor.AQUA + " seconds.");
             }
 
             currentCD--;

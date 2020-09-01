@@ -4,6 +4,7 @@ import com.reinforcedmc.gameapi.*;
 import com.reinforcedmc.gameapi.game.Game;
 import com.reinforcedmc.gameapi.game.GamePreCountDown;
 import com.reinforcedmc.gameapi.game.GameStatus;
+import com.reinforcedmc.gameapi.game.GameType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -69,7 +70,25 @@ public class GameCMD implements CommandExecutor {
             p.sendMessage(ChatColor.AQUA + "You have set the lobby!");
         }
 
-        if(args[0].equalsIgnoreCase("setgame")) {
+        if(args[0].equalsIgnoreCase("settype")) {
+            GameType gameType = GameType.valueOf(args[1]);
+
+            if(gameType == null) {
+                p.sendMessage(ChatColor.RED + "ERROR: That game-type does not exist!");
+                return true;
+            }
+
+            if(!GameAPI.getInstance().currentGame.getTypes().contains(gameType)) {
+                p.sendMessage(ChatColor.RED + "ERROR: The current game does not support this game type!");
+                return true;
+            }
+
+            GameAPI.getInstance().gameType = gameType;
+            GameAPI.getInstance().getGameConfig().set("type", args[1]);
+            p.sendMessage(ChatColor.AQUA + "You have set the game-type to " + gameType.toString() + "!");
+        }
+
+        if(args[0].equalsIgnoreCase("setgame") || args[0].equalsIgnoreCase("set")) {
             if(GameAPI.getInstance().getGameManager().getGameByName(args[1]) == null) {
                 p.sendMessage(ChatColor.RED + "ERROR: That game does not exist!");
                 return true;

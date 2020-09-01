@@ -2,6 +2,7 @@ package com.reinforcedmc.gameapi.game;
 
 import org.bukkit.ChatColor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
@@ -9,6 +10,8 @@ public class Game {
     private String name;
     private String prefix;
     private List<String> description;
+
+    private ArrayList<GameType> types;
 
     private GameFlags gameFlags;
 
@@ -19,10 +22,12 @@ public class Game {
 
     public String worldname;
 
-    public Game(String name, String prefix, List<String> description, GameFlags gameFlags, int minPlayers, int maxPlayers, String[] titles) {
+    public Game(String name, String prefix, List<String> description, ArrayList<GameType> types, GameFlags gameFlags, int minPlayers, int maxPlayers, String[] titles) {
         this.name = name;
         this.prefix = prefix;
         this.description = description;
+
+        this.types = types;
 
         this.gameFlags = gameFlags;
 
@@ -60,4 +65,7 @@ public class Game {
         return titles;
     }
 
+    public ArrayList<GameType> getTypes() {
+        return types;
+    }
 }

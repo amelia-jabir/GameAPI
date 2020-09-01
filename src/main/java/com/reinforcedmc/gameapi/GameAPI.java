@@ -8,10 +8,7 @@ import com.reinforcedmc.gameapi.config.GameConfig;
 import com.reinforcedmc.gameapi.config.LocationsConfig;
 import com.reinforcedmc.gameapi.events.*;
 import com.reinforcedmc.gameapi.events.api.GameSetupEvent;
-import com.reinforcedmc.gameapi.game.Game;
-import com.reinforcedmc.gameapi.game.GameManager;
-import com.reinforcedmc.gameapi.game.GamePreCountDown;
-import com.reinforcedmc.gameapi.game.GameStatus;
+import com.reinforcedmc.gameapi.game.*;
 import com.reinforcedmc.gameapi.utils.BungeeUtils;
 import com.reinforcedmc.gameapi.utils.GameUtils;
 import org.bukkit.Bukkit;
@@ -32,20 +29,21 @@ public class GameAPI extends JavaPlugin implements Listener, PluginMessageListen
     private GameManager gameManager;
     private GameConfig gameConfig;
     private LocationsConfig locationsConfig;
+    private GameUtils gameUtils;
+    private BungeeUtils bungeeUtils;
 
     public String serverName;
     public boolean gameServer = false;
 
     public ArrayList<UUID> ingame = new ArrayList<>();
-    public GameStatus status = GameStatus.SETUP;
 
     public Game currentGame;
+    public GameStatus status = GameStatus.SETUP;
+    public GameType gameType = GameType.DEFAULT;
+
     public static String prefix;
 
     public GamePreCountDown preCountDown;
-
-    private GameUtils gameUtils;
-    private BungeeUtils bungeeUtils;
 
     @Override
     public void onEnable() {
