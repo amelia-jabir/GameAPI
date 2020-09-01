@@ -15,7 +15,7 @@ public class BlockShuffle extends Game {
                 "Find and craft specific blocks",
                 "before everyone else to become",
                 "the ultimate block master!"
-        ), (ArrayList<GameType>) Arrays.asList(GameType.CLASSIC), new GameFlags().setAllowNether(true), 2, 16,  null);
+        ), Arrays.asList(GameType.CLASSIC), new GameFlags().setAllowNether(true), 2, 16,  null);
     }
 
 }

@@ -71,7 +71,14 @@ public class GameCMD implements CommandExecutor {
         }
 
         if(args[0].equalsIgnoreCase("settype")) {
-            GameType gameType = GameType.valueOf(args[1]);
+            GameType gameType = null;
+
+            try {
+                gameType = GameType.valueOf(args[1].toUpperCase());
+            } catch(IllegalArgumentException e) {
+                p.sendMessage(ChatColor.RED + "ERROR: That game-type does not exist!");
+                return true;
+            }
 
             if(gameType == null) {
                 p.sendMessage(ChatColor.RED + "ERROR: That game-type does not exist!");
@@ -87,7 +94,7 @@ public class GameCMD implements CommandExecutor {
 
             GameAPI.getInstance().gameType = gameType;
             GameAPI.getInstance().getGameConfig().set("type", args[1]);
-            p.sendMessage(ChatColor.AQUA + "You have set the game-type to " + gameType.toString() + "!");
+            p.sendMessage(ChatColor.AQUA + "You have set the game-type to " + ChatColor.DARK_AQUA + ChatColor.BOLD + gameType.toString() + "!");
         }
 
         if(args[0].equalsIgnoreCase("setgame") || args[0].equalsIgnoreCase("set")) {

@@ -16,7 +16,7 @@ public class DeathSwap extends Game {
                 "Compete against other players by",
                 "setting up big brain traps before it",
                 "too late!"
-        ), (ArrayList<GameType>) Arrays.asList(GameType.CLASSIC), new GameFlags(), 2, 8, new String[]{
+        ), Arrays.asList(GameType.CLASSIC), new GameFlags(), 2, 8, new String[]{
                 "&6&lDeath&e&lSwap",
                 "&6&lDeath&e&lSwap",
                 "&6&lDeath&e&lSwap",
