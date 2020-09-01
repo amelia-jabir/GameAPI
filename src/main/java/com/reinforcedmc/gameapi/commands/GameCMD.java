@@ -78,9 +78,11 @@ public class GameCMD implements CommandExecutor {
                 return true;
             }
 
-            if(!GameAPI.getInstance().currentGame.getTypes().contains(gameType)) {
-                p.sendMessage(ChatColor.RED + "ERROR: The current game does not support this game type!");
-                return true;
+            if(gameType != GameType.DEFAULT) {
+                if (!GameAPI.getInstance().currentGame.getTypes().contains(gameType)) {
+                    p.sendMessage(ChatColor.RED + "ERROR: The current game does not support this game type!");
+                    return true;
+                }
             }
 
             GameAPI.getInstance().gameType = gameType;

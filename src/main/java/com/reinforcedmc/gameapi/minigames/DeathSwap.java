@@ -2,8 +2,11 @@ package com.reinforcedmc.gameapi.minigames;
 
 import com.reinforcedmc.gameapi.game.Game;
 import com.reinforcedmc.gameapi.game.GameFlags;
+import com.reinforcedmc.gameapi.game.GameType;
 import org.bukkit.ChatColor;
+import org.bukkit.EntityEffect;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DeathSwap extends Game {
@@ -13,7 +16,7 @@ public class DeathSwap extends Game {
                 "Compete against other players by",
                 "setting up big brain traps before it",
                 "too late!"
-        ), new GameFlags(), 2, 8, new String[]{
+        ), (ArrayList<GameType>) Arrays.asList(GameType.CLASSIC), new GameFlags(), 2, 8, new String[]{
                 "&6&lDeath&e&lSwap",
                 "&6&lDeath&e&lSwap",
                 "&6&lDeath&e&lSwap",
