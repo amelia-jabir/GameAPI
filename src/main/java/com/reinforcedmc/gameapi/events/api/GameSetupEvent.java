@@ -5,6 +5,7 @@ import com.reinforcedmc.gameapi.GameAPI;
 import com.reinforcedmc.gameapi.game.GameStatus;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -26,11 +27,6 @@ public class GameSetupEvent extends Event {
     public GameSetupEvent(Game game) {
         this.game = game;
         GameAPI.getInstance().status = GameStatus.SETUP;
-        for(World w : Bukkit.getWorlds()) {
-            if(!w.getName().equals("world")) {
-                w.setDifficulty(GameAPI.getInstance().currentGame.getGameFlags().getDifficulty());
-            }
-        }
     }
 
     public void openServer() {

@@ -3,7 +3,6 @@ package com.reinforcedmc.gameapi.events.api;
 import com.reinforcedmc.gameapi.game.Game;
 import com.reinforcedmc.gameapi.GameAPI;
 import com.reinforcedmc.gameapi.game.GameStatus;
-import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -25,7 +24,6 @@ public class GameStartEvent extends Event {
     public GameStartEvent(Game game) {
         this.game = game;
         GameAPI.getInstance().status = GameStatus.INGAME;
-        Bukkit.getOnlinePlayers().forEach(p -> GameAPI.getInstance().getGameUtils().resetPlayer(p));
     }
 
 }
