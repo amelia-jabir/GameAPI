@@ -44,10 +44,13 @@ public class API {
 
         GameAPI.getInstance().status = GameStatus.ENDING;
 
+        GameAPI.getInstance().getJedisManager().updateGameServer();
+
         for(UUID uuid : GameAPI.getInstance().ingame) {
             Player p = Bukkit.getPlayer(uuid);
             for(Player pp : Bukkit.getOnlinePlayers()) {
-                pp.showPlayer(p);
+                if(p != null)
+                    pp.showPlayer(p);
             }
         }
 
@@ -55,7 +58,7 @@ public class API {
 
             for(UUID uuid : GameAPI.getInstance().ingame) {
                 Player p = Bukkit.getPlayer(uuid);
-                if(uuid != winner.getUniqueId())
+                if(uuid != winner.getUniqueId() && p != null)
                     p.teleport(winner);
             }
 
@@ -93,7 +96,9 @@ public class API {
 
                     for(UUID uuid : GameAPI.getInstance().ingame) {
                         Player p = Bukkit.getPlayer(uuid);
-                        GameAPI.getInstance().getGameUtils().resetPlayer(p);
+
+                        if(p != null)
+                            GameAPI.getInstance().getGameUtils().resetPlayer(p);
                     }
 
                     this.cancel();
@@ -103,6 +108,7 @@ public class API {
                         GameAPI.getInstance().getBungeeUtils().sendAllToHub();
                     }
                     GameAPI.getInstance().status = GameStatus.SETUP;
+                    GameAPI.getInstance().getJedisManager().updateGameServer();
                     Bukkit.getServer().getPluginManager().callEvent(new GameSetupEvent(GameAPI.getInstance().currentGame));
                 }
             }

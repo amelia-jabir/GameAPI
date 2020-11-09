@@ -27,10 +27,12 @@ public class GameSetupEvent extends Event {
     public GameSetupEvent(Game game) {
         this.game = game;
         GameAPI.getInstance().status = GameStatus.SETUP;
+        GameAPI.getInstance().getJedisManager().updateGameServer();
     }
 
     public void openServer() {
         GameAPI.getInstance().status = GameStatus.LOBBY;
+        GameAPI.getInstance().getJedisManager().updateGameServer();
     }
 
 }

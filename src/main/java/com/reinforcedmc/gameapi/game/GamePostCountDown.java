@@ -14,6 +14,8 @@ public class GamePostCountDown extends BukkitRunnable {
     public void start() {
         GameAPI.getInstance().preCountDown = null;
         GameAPI.getInstance().status = GameStatus.POSTCOUNTDOWN;
+        GameAPI.getInstance().getJedisManager().updateGameServer();
+
         this.runTaskTimer(GameAPI.getInstance(), 0, 20);
     }
 

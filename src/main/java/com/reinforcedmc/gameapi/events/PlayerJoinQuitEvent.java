@@ -45,6 +45,8 @@ public class PlayerJoinQuitEvent implements Listener {
             GameAPI.getInstance().getAPI().putInSpectator(e.getPlayer());
         }
 
+        GameAPI.getInstance().getJedisManager().updateGameServer();
+
     }
 
     @EventHandler
@@ -55,6 +57,9 @@ public class PlayerJoinQuitEvent implements Listener {
             GameAPI.getInstance().ingame.remove(e.getPlayer().getUniqueId());
 
         CustomScoreboard.clearPlayer(e.getPlayer());
+
+        GameAPI.getInstance().getJedisManager().updateGameServer();
+
     }
 
 }

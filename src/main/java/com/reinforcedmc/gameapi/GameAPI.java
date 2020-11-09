@@ -6,6 +6,7 @@ import com.reinforcedmc.gameapi.api.API;
 import com.reinforcedmc.gameapi.commands.GameCMD;
 import com.reinforcedmc.gameapi.config.GameConfig;
 import com.reinforcedmc.gameapi.config.LocationsConfig;
+import com.reinforcedmc.gameapi.database.JedisManager;
 import com.reinforcedmc.gameapi.events.*;
 import com.reinforcedmc.gameapi.events.api.GameSetupEvent;
 import com.reinforcedmc.gameapi.game.*;
@@ -31,6 +32,8 @@ public class GameAPI extends JavaPlugin implements Listener, PluginMessageListen
     private LocationsConfig locationsConfig;
     private GameUtils gameUtils;
     private BungeeUtils bungeeUtils;
+
+    private JedisManager jedisManager;
 
     public String serverName;
     public boolean gameServer = false;
@@ -58,6 +61,8 @@ public class GameAPI extends JavaPlugin implements Listener, PluginMessageListen
         gameConfig = new GameConfig();
         api = new API();
 
+        jedisManager = new JedisManager();
+
         prefix = currentGame.getPrefix() + ChatColor.DARK_GRAY + ChatColor.BOLD + "> " + ChatColor.RESET + ChatColor.AQUA;
 
         if(bungeeUtils.enabled) {
@@ -83,6 +88,7 @@ public class GameAPI extends JavaPlugin implements Listener, PluginMessageListen
         }
 
         Bukkit.getServer().getPluginManager().callEvent(new GameSetupEvent(currentGame));
+
 
     }
 
@@ -112,6 +118,10 @@ public class GameAPI extends JavaPlugin implements Listener, PluginMessageListen
 
     public static GameAPI getInstance() {
         return instance;
+    }
+
+    public JedisManager getJedisManager() {
+        return jedisManager;
     }
 
     @Override

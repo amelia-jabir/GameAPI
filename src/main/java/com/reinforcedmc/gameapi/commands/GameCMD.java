@@ -52,6 +52,7 @@ public class GameCMD implements CommandExecutor {
                 gamePreCountDown.cancel();
                 gamePreCountDown.currentCD = gamePreCountDown.cooldown;
                 GameAPI.getInstance().status = GameStatus.LOBBY;
+                GameAPI.getInstance().getJedisManager().updateGameServer();
                 p.sendMessage(ChatColor.AQUA + "You have stopped the game from starting.");
             }
         }
@@ -110,6 +111,7 @@ public class GameCMD implements CommandExecutor {
 
             if(GameAPI.getInstance().status == GameStatus.PRECOUNTDOWN) {
                 GameAPI.getInstance().status = GameStatus.LOBBY;
+                GameAPI.getInstance().getJedisManager().updateGameServer();
                 GameAPI.getInstance().preCountDown.cancel();
             }
 
@@ -120,6 +122,8 @@ public class GameCMD implements CommandExecutor {
             p.sendMessage(ChatColor.AQUA + "The game has been set to " + g.getPrefix() + "!");
 
             GameAPI.getInstance().getGameUtils().tryStarting();
+
+            GameAPI.getInstance().getJedisManager().updateGameServer();
 
         }
 

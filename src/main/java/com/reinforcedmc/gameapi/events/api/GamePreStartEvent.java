@@ -34,6 +34,8 @@ public class GamePreStartEvent extends Event {
         Bukkit.getOnlinePlayers().forEach((p) -> GameAPI.getInstance().getGameUtils().resetPlayer(p));
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "difficulty " + game.getGameFlags().getDifficulty().name().toLowerCase());
         Bukkit.getOnlinePlayers().forEach((p) -> p.playSound(p.getLocation(), Sound.UI_CARTOGRAPHY_TABLE_TAKE_RESULT, 1F, 0.8F));
+        GameAPI.getInstance().getJedisManager().updateGameServer();
+
     }
 
 

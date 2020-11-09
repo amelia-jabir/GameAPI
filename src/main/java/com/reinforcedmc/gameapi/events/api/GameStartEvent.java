@@ -24,6 +24,8 @@ public class GameStartEvent extends Event {
     public GameStartEvent(Game game) {
         this.game = game;
         GameAPI.getInstance().status = GameStatus.INGAME;
+        GameAPI.getInstance().getJedisManager().updateGameServer();
+
     }
 
 }
